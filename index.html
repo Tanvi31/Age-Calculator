@@ -2,47 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
-
-  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
-  
-  <title>Frontend Mentor | Age calculator app</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <title>Frontend Mentor | Age calculator app</title>
 </head>
-
 <body>
-  <div class="container">
-    <div class="input-flex">
-       <div class="input-container">
-          <span>Day</span>
-          <input type="number"  id="day">
-          <small class="error-day"></small>
-       </div>
-       <div class="input-container">
-          <span>Month</span>
-          <input type="number"  id="month">
-          <small class="error-month"></small>
-       </div>
-       <div class="input-container">
-         <span>Year</span>
-         <input type="number"  id="year">
-         <small class="error-year"></small>
-       </div>
-     </div>
+  <main>
+    <form action="" class="user-input">
+      <div class="input-area day-input">
+        <label for="Day" class="day-label label">Day</label>
+        <div class="input-day input-box">
+          <input type="text" placeholder="DD" id="day">
+        </div>
+        <p class="error-message error-day">This field is required</p>
+      </div>
 
-   <button class="submit-btn">
-    <img src="./assets/images/icon-arrow.svg" alt="">
-   </button>
-  <div class="output">
-    <h1><span class="output-year">--</span> years</h1>
-    <h1><span class="output-month">--</span> months</h1>
-    <h1><span class="output-day">--</span> days</h1>
-  </div>
-</div>
+      <div class="input-area month-input">
+        <label for="Month" class="month-label label">Month</label>
+        <div class="input-month input-box">
+          <input type="text" placeholder="MM" id="month">
+        </div>  
+        <p class="error-message error-month">This field is required</p>
+      </div>
+      
+      <div class="input-area year-input">
+        <label for="Year" class="year-label label">Year</label>
+        <div class="input-year input-box">
+          <input type="text" placeholder="YYYY" id="year">
+        </div>
+        <p class="error-message error-year">This field is required</p>
+      </div>
+    </form>
 
-<script src="script.js"></script>
+    <div class="form-submit">
+      <div class="line"></div>
+      <button id="submit-btn"><img src="./assets/images/icon-arrow.svg" alt=""></button>
+    </div>
+
+    <div class="result-section">
+      <h1 class="result year-result"><span class="year-calc">--</span>years</h1>
+      <h1 class="result month-result"><span class="month-calc">--</span>months</h1>
+      <h1 class="result day-result"><span class="day-calc">--</span>days</h1>
+    </div>
+  </main>
+  <script src="script.js"></script>
 </body>
 </html>
-  
- 

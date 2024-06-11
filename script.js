@@ -1,91 +1,166 @@
-// we select the output elements
-const output_year = document.querySelector(".output-year");
-const output_month = document.querySelector(".output-month");
-const output_day = document.querySelector(".output-day");
-const submit_btn = document.querySelector(".submit-btn");
-// INPUT ELEMENTS
-let isValid = false;
-const input_year = document.querySelector("#year");
-const input_day = document.querySelector("#day");
-const input_month = document.querySelector("#month");
-// const submit_btn = document.querySelector(".submit-btn");
-// ERROR ELEMENTS
-const error_day = document.querySelector(".error-day");
-const error_month = document.querySelector(".error-month");
-const error_year = document.querySelector(".error-year");
-submit_btn.addEventListener("click", CalculateDate);
-input_day.addEventListener("input", (e) => {
-  if (+input_day.value > 31) {
-    error_day.textContent = "Must be a valid date";
-    isValid = false;
-    return;
-  } else {
-    isValid = true;
-    error_day.textContent = "";
-  }
-  if (+input_day.value === 0) {
-    isValid = false;
-    error_day.textContent = "This field is required";
-    isValid = false;
-    return;
-  } else {
-    error_day.textContent = "";
-  }
-});
+let age = {};
+let submitButton = document.querySelector("#submit-btn")
 
-input_month.addEventListener("input", (e) => {
-  if (+input_month.value > 12) {
-    error_month.textContent = "Must be a valid date";
-    isValid = false;
-    return;
-  } else {
-    isValid = true;
-    error_month.textContent = "";
-  }
-  if (+input_month.value === 0) {
-    isValid = false;
-    error_month.textContent = "This field is required";
-    isValid = false;
-    return;
-  } else {
-    error_month.textContent = "";
-  }
-});
 
-input_year.addEventListener("input", (e) => {
-  if (+input_year.value > 2023) {
-    error_year.textContent = "Must be a valid date";
-    isValid = false;
-    return;
-  } else {
-    isValid = true;
-    error_year.textContent = "";
-  }
-  if (+input_year.value === 0) {
-    isValid = false;
-    error_year.textContent = "This field is required";
-    isValid = false;
-    return;
-  } else {
-    error_year.textContent = "";
-  }
-});
+function checkEmpty(dobYear, dobMonth, dobDay) {
+    let errorCount = 0
 
-function CalculateDate() {
-  if (isValid) {
-    let birthday = `${input_month.value}/${input_day.value}/${input_year.value}`;
-    console.log(birthday);
-    let birthdayObj = new Date(birthday);
-    let ageDiffMill = Date.now() - birthdayObj;
-    let ageDate = new Date(ageDiffMill);
-    let ageYears = ageDate.getUTCFullYear() - 1970;
-    let ageMonth = ageDate.getUTCMonth();
-    let ageDay = ageDate.getUTCDay();
-    // DISPLAYING EVERYTHING
-    output_day.textContent = ageDay;
-    output_month.textContent = ageMonth;
-    output_year.textContent = ageYears;
-  } else {
-    alert("error");
-  }
+    if(isNaN(dobYear)){
+        const errorLabel = document.querySelector(".year-label")
+        const errorBorder = document.querySelector(".input-year")
+        const errorMessage = document.querySelector(".error-year")
+
+        errorLabel.style.color = "var(--Light-red)"
+        errorBorder.style.borderColor = "var(--Light-red)"
+        errorMessage.style.display = "block"
+        errorCount += 1
+    }
+
+    if(isNaN(dobMonth)){
+        const errorLabel = document.querySelector(".month-label")
+        const errorBorder = document.querySelector(".input-month")
+        const errorMessage = document.querySelector(".error-month")
+
+        errorLabel.style.color = "var(--Light-red)"
+        errorBorder.style.borderColor = "var(--Light-red)"
+        errorMessage.style.display = "block"
+        errorCount += 1
+    }
+
+    if(isNaN(dobDay)){
+        const errorLabel = document.querySelector(".day-label")
+        const errorBorder = document.querySelector(".input-day")
+        const errorMessage = document.querySelector(".error-day")
+
+        errorLabel.style.color = "var(--Light-red)"
+        errorBorder.style.borderColor = "var(--Light-red)"
+        errorMessage.style.display = "block"
+        errorCount += 1
+    }
+    return errorCount
 }
+
+
+function checkValidity(dobYear, dobMonth, dobDay) {
+    let now = new Date()
+    let currentYear = now.getFullYear()
+    let result = true
+
+    if(dobYear > currentYear || dobYear < 0){
+        const errorLabel = document.querySelector(".year-label")
+        const errorBorder = document.querySelector(".input-year")
+        const errorMessage = document.querySelector(".error-year")
+
+        errorLabel.style.color = "var(--Light-red)"
+        errorBorder.style.borderColor = "var(--Light-red)"
+        errorMessage.style.display = "block"
+        if(dobYear < 0) {
+            errorMessage.innerText = "Must be a valid year"
+        }
+        else {
+            errorMessage.innerText = "Must be in the past"
+        }
+        result = false
+    }
+
+    if(dobMonth < 1 || dobMonth > 12){
+        const errorLabel = document.querySelector(".month-label")
+        const errorBorder = document.querySelector(".input-month")
+        const errorMessage = document.querySelector(".error-month")
+
+        errorLabel.style.color = "var(--Light-red)"
+        errorBorder.style.borderColor = "var(--Light-red)"
+        errorMessage.style.display = "block"
+        errorMessage.innerText = "Must be a valid month"
+        result = false
+    }
+
+    if(dobDay < 1 || dobDay > 31 ||  ((dobMonth===2 && dobDay>28) || 
+    ((dobMonth===4 || dobMonth===6 || dobMonth===9 || dobMonth===11) && dobDay>30))) {
+        const errorLabel = document.querySelector(".day-label")
+        const errorBorder = document.querySelector(".input-day")
+        const errorMessage = document.querySelector(".error-day")
+
+        errorLabel.style.color = "var(--Light-red)"
+        errorBorder.style.borderColor = "var(--Light-red)"
+        errorMessage.style.display = "block"
+        errorMessage.innerText = "Must be a valid day"
+        result = false
+    }
+    return result
+}
+
+
+function resetErrorStyles() {
+    const errorLabel = document.querySelectorAll(".label")
+    const errorBorder = document.querySelectorAll(".input-box")
+    const errorMessage = document.querySelectorAll(".error-message")
+
+    errorLabel.forEach(label => label.style.color = "var(--Smokey-grey)")
+    errorBorder.forEach(border => border.style.borderColor = "var(--Light-grey)")
+    errorMessage.forEach(message => message.style.display = "none")
+    errorMessage.forEach(message => message.innerText = "This field is required")
+}
+
+
+function calculateAge() {
+    const dobYear = parseInt(document.querySelector("#year").value)
+    const dobMonth = parseInt(document.querySelector("#month").value)
+    const dobDay = parseInt(document.querySelector("#day").value)
+
+    const errorCount = checkEmpty(dobYear, dobMonth, dobDay)
+    const isValid = checkValidity(dobYear, dobMonth, dobDay)
+    if(errorCount === 0 && isValid){
+        resetErrorStyles()
+        let now = new Date()
+        let currentYear = now.getFullYear()
+        let currentMonth = now.getMonth() + 1
+        let currentDay = now.getDate()
+
+        if(currentDay < dobDay){
+            currentMonth -= 1
+            age.day = (currentDay + 30) - dobDay 
+        }
+        else {
+            age.day = currentDay - dobDay
+        }
+        if(currentMonth < dobMonth){
+            currentYear -= 1
+            age.month = (currentMonth + 12) - dobMonth
+        }
+        else {
+            age.month = currentMonth - dobMonth
+        }
+        age.year = currentYear - dobYear
+        return true
+    }
+    return false
+}
+
+
+function displayChanges() {
+    const isCalculationValid = calculateAge()
+    if(isCalculationValid) {
+        const year = document.querySelector(".year-calc")
+        const month = document.querySelector(".month-calc")
+        const day = document.querySelector(".day-calc")
+
+        year.innerText = age["year"]
+        month.innerText = age["month"]
+        day.innerText = age["day"]
+        return true
+    }
+    return false
+}
+
+
+submitButton.addEventListener("click", (e) => {
+    resetErrorStyles();
+    let result = displayChanges()
+    if(result){
+        e.preventDefault()
+    }
+    else {
+        e.preventDefault()
+    }
+})
